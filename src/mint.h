@@ -200,8 +200,10 @@ private:
 	
 };
 
+#ifndef no_mi
 #ifdef mi9
 typedef Mint <998244353, true> mi;
 #else
 typedef Mint <1000000007, true> mi;
+#endif
 #endif
