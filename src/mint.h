@@ -2,10 +2,10 @@
 
 #include <limits>
 #include <iostream>
+#include <vector>
 
-template <typename A> A inverse(const A& a, const A& b) {
-	a %= b;
-	if (!a) {
+template <typename A> inline A inverse(A a, const A& b) noexcept {
+	if (!(a %= b)) {
 		return b == static_cast <A> (1) ? static_cast <A> (0) : static_cast <A> (-1);
 	}
 	A c = inverse(b, a);
@@ -17,13 +17,13 @@ template <int MOD, bool IS_PRIME = false> class Mint {
 	
 public:
 	
-	constexpr explicit operator int () const {
+	constexpr explicit operator int () const noexcept {
 		return this->m_value;
 	}
 	
-	constexpr Mint(const int _value = 0) : m_value(m_fix(_value)) { }
+	constexpr Mint(const int _value = 0) noexcept : m_value(m_fix(_value)) { }
 	
-	template <typename A> Mint(const A& _value) {
+	template <typename A> inline Mint(const A& _value) noexcept {
 		const long long llvalue = static_cast <long long> (_value);
 		if (-(static_cast <long long> (MOD)) > llvalue || llvalue > static_cast <long long> (MOD)) {
 			this->m_value = m_fix(static_cast <int> (llvalue % MOD));
@@ -32,47 +32,47 @@ public:
 		this->m_value = m_fix(static_cast <int> (llvalue));
 	}
 	
-	constexpr bool operator == (const Mint <MOD, IS_PRIME>& other) const {
+	constexpr bool operator == (const Mint <MOD, IS_PRIME>& other) const noexcept {
 		return (int) (*this) == (int) other;
 	}
 	
-	constexpr bool operator != (const Mint <MOD, IS_PRIME>& other) const {
+	constexpr bool operator != (const Mint <MOD, IS_PRIME>& other) const noexcept {
 		return (int) (*this) != (int) other;
 	}
 	
-	constexpr bool operator < (const Mint <MOD, IS_PRIME>& other) const {
+	constexpr bool operator < (const Mint <MOD, IS_PRIME>& other) const noexcept {
 		return (int) (*this) < (int) other;
 	}
 	
-	constexpr Mint <MOD, IS_PRIME> operator - () const {
+	constexpr Mint <MOD, IS_PRIME> operator - () const noexcept {
 		return Mint <MOD, IS_PRIME> (-this->m_value);
 	}
 	
-	inline Mint <MOD, IS_PRIME>& operator += (const Mint <MOD, IS_PRIME>& other) {
+	inline Mint <MOD, IS_PRIME>& operator += (const Mint <MOD, IS_PRIME>& other) noexcept {
 		if ((this->m_value += (int) other) >= MOD) {
 			this->m_value -= MOD;
 		}
 		return *this;
 	}
 	
-	inline Mint <MOD, IS_PRIME>& operator -= (const Mint <MOD, IS_PRIME>& other) {
+	inline Mint <MOD, IS_PRIME>& operator -= (const Mint <MOD, IS_PRIME>& other) noexcept {
 		if ((this->m_value -= (int) other) < 0) {
 			this->m_value += MOD;
 		}
 		return *this;
 	}
 	
-	inline Mint <MOD, IS_PRIME>& operator *= (const Mint <MOD, IS_PRIME>& other) {
+	inline Mint <MOD, IS_PRIME>& operator *= (const Mint <MOD, IS_PRIME>& other) noexcept {
 		this->m_value = static_cast <long long> (this->m_value) * (int) other % MOD;
-		return this;
+		return *this;
 	}
 	
-	inline Mint <MOD, IS_PRIME>& operator /= (const Mint <MOD, IS_PRIME>& other) {
+	inline Mint <MOD, IS_PRIME>& operator /= (const Mint <MOD, IS_PRIME>& other) noexcept {
 		(*this) *= inverse(other);
 		return *this;
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> inverse(const Mint <MOD, IS_PRIME>& mint) {
+	friend inline Mint <MOD, IS_PRIME> inverse(const Mint <MOD, IS_PRIME>& mint) noexcept {
 		if (IS_PRIME) {
 			return pow(mint, MOD - 2);
 		}
@@ -80,7 +80,7 @@ public:
 		return s_inverse;
 	}
 	
-	template <typename A> friend inline const Mint <MOD, IS_PRIME>& pow(Mint <MOD, IS_PRIME> mint, const A& exponent) {
+	template <typename A> static inline Mint <MOD, IS_PRIME> pow(Mint <MOD, IS_PRIME> mint, A exponent) noexcept {
 		static_assert (std::is_fundamental <A>::value);
 		if (exponent < static_cast <A> (0)) {
 			return inverse(pow(mint, -exponent));
@@ -96,39 +96,39 @@ public:
 		return result;
 	}
 	
-	inline Mint <MOD, IS_PRIME>& operator ++ () {
+	inline Mint <MOD, IS_PRIME>& operator ++ () noexcept {
 		return *this += 1;
 	}
 	
-	inline Mint <MOD, IS_PRIME>& operator -- () {
+	inline Mint <MOD, IS_PRIME>& operator -- () noexcept {
 		return *this -= 1;
 	}
 	
-	inline Mint <MOD, IS_PRIME> operator ++ (int) {
+	inline Mint <MOD, IS_PRIME> operator ++ (int) noexcept {
 		return *this += 1;
 	}
 	
-	inline Mint <MOD, IS_PRIME> operator -- (int) {
+	inline Mint <MOD, IS_PRIME> operator -- (int) noexcept {
 		return *this -= 1;
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> operator + (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) {
+	friend inline Mint <MOD, IS_PRIME> operator + (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) noexcept {
 		return mint += other;
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> operator - (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) {
+	friend inline Mint <MOD, IS_PRIME> operator - (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) noexcept {
 		return mint -= other;
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> operator * (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) {
+	friend inline Mint <MOD, IS_PRIME> operator * (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) noexcept {
 		return mint *= other;
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> operator / (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) {
+	friend inline Mint <MOD, IS_PRIME> operator / (Mint <MOD, IS_PRIME> mint, const Mint <MOD, IS_PRIME>& other) noexcept {
 		return mint /= other;
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> factorial(const size_t x) {
+	static inline Mint <MOD, IS_PRIME> factorial(const size_t x) noexcept {
 		if (static_cast <long long> (x) < 0LL) {
 			return Mint <MOD, IS_PRIME> (0);
 		}
@@ -142,11 +142,11 @@ public:
 		for (size_t i = ready + 1; i <= next; i++) {
 			result[i] = result[i - 1] * Mint <MOD, IS_PRIME> (i);
 		}
-		ready = y;
+		ready = next;
 		return result[x];
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> inverse_factorial(const size_t x) {
+	static inline Mint <MOD, IS_PRIME> inverse_factorial(const size_t x) noexcept {
 		if (static_cast <long long> (x) < 0LL) {
 			return Mint <MOD, IS_PRIME> (0);
 		}
@@ -157,15 +157,15 @@ public:
 		}
 		const size_t next = x + (x >> static_cast <size_t> (4));
 		result.resize(next + 1);
-		result[y] = inverse(factorial(y));
+		result[next] = inverse(factorial(next));
 		for (size_t i = next - 1; i > ready; i--) {
 			result[i] = result[i + 1] * Mint <MOD, IS_PRIME> (i + 1);
 		}
 		ready = next;
-		return result[i];
+		return result[x];
 	}
 	
-	friend inline Mint <MOD, IS_PRIME> choose(const size_t n, const size_t k) {
+	static inline Mint <MOD, IS_PRIME> choose(const size_t n, const size_t k) noexcept {
 		if (static_cast <long long> (k) < 0LL || k > n) {
 			return Mint <MOD, IS_PRIME> (0);
 		}
@@ -177,14 +177,14 @@ public:
 	}
 	
 	friend inline std::istream& operator >> (std::istream& stream, Mint <MOD, IS_PRIME>& mint) {
-		return stream >> (int&) mint;
+		return stream >> mint.m_value;
 	}
 	
 private:
 	
 	int m_value;
 	
-	constexpr int m_fix(int value) const {
+	constexpr int m_fix(int value) const noexcept {
 		if (value < 0) {
 			value = (value % MOD) + MOD;
 		}
@@ -196,10 +196,6 @@ private:
 			}
 		}
 		return value;
-	}
-	
-	constexpr explicit operator int& () {
-		return this->m_value;
 	}
 	
 };
