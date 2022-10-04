@@ -5,13 +5,13 @@
 #include <vector>
 
 template <typename A> inline A inverse(A a, A b) noexcept {
-	if (b < static_cast <A> (2)) [[unlikely]] {
+	if (b < static_cast <A> (2)) {
 		return static_cast <A> (0);
 	}
 	A b0 = b;
 	A x = static_cast <A> (1), y = static_cast <A> (0);
 	while (static_cast <A> (1) < a) {
-		if (!(static_cast <A> (0) < b)) [[unlikely]] {
+		if (!(static_cast <A> (0) < b)) {
 			return static_cast <A> (0);
 		}
 		A quo = a / b;
@@ -96,7 +96,7 @@ public:
 	
 	template <typename A> static inline Mint <MOD, IS_PRIME> pow(Mint <MOD, IS_PRIME> mint, A exponent) noexcept {
 		static_assert (std::is_fundamental <A>::value);
-		if (exponent < static_cast <A> (0)) [[unlikely]] {
+		if (exponent < static_cast <A> (0)) {
 			return inverse(pow(mint, -exponent));
 		}
 		Mint <MOD, IS_PRIME> result(1);
@@ -143,7 +143,7 @@ public:
 	}
 	
 	static inline Mint <MOD, IS_PRIME> factorial(const size_t x) noexcept {
-		if (static_cast <long long> (x) < 0LL) [[unlikely]] {
+		if (static_cast <long long> (x) < 0LL) {
 			return Mint <MOD, IS_PRIME> (0);
 		}
 		static size_t ready = static_cast <size_t> (1);
@@ -161,7 +161,7 @@ public:
 	}
 	
 	static inline Mint <MOD, IS_PRIME> inverse_factorial(const size_t x) noexcept {
-		if (static_cast <long long> (x) < 0LL) [[unlikely]] {
+		if (static_cast <long long> (x) < 0LL) {
 			return Mint <MOD, IS_PRIME> (0);
 		}
 		static size_t ready = static_cast <size_t> (1);
@@ -180,7 +180,7 @@ public:
 	}
 	
 	static inline Mint <MOD, IS_PRIME> choose(const size_t n, const size_t k) noexcept {
-		if (static_cast <long long> (k) < 0LL || k > n) [[unlikely]] {
+		if (static_cast <long long> (k) < 0LL || k > n) {
 			return Mint <MOD, IS_PRIME> (0);
 		}
 		return factorial(n) * inverse_factorial(k) * inverse_factorial(n - k);

@@ -1,0 +1,9 @@
+#pragma once
+
+#if (__cplusplus == 202002L)
+#include "c++20/dsu.h"
+#elif (__cplusplus == 201703L)
+#include "c++17/dsu.h"
+#else
+#include "c++17/dsu.h"
+#endif

@@ -1,0 +1,9 @@
+#pragma once
+
+#if (__cplusplus == 202002L)
+#include "c++20/mint.h"
+#elif (__cplusplus == 201703L)
+#include "c++17/mint.h"
+#else
+#include "c++17/mint.h"
+#endif
