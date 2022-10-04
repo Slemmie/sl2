@@ -60,7 +60,7 @@ public:
 	}
 	
 	inline unsigned int find(const unsigned int vertex) noexcept {
-		if (vertex >= static_cast <unsigned int> (this->m_parent.size())) {
+		if (vertex >= static_cast <unsigned int> (this->m_parent.size())) [[unlikely]] {
 			this->grow(vertex);
 		}
 		return vertex == this->m_parent[vertex] ? vertex : (this->m_parent[vertex] = this->find(this->m_parent[vertex]));

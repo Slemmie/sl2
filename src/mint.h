@@ -4,13 +4,28 @@
 #include <iostream>
 #include <vector>
 
-template <typename A> inline A inverse(A a, const A& b) noexcept {
-	if (!(a %= b)) {
-		return b == static_cast <A> (1) ? static_cast <A> (0) : static_cast <A> (-1);
+template <typename A> inline A inverse(A a, A b) noexcept {
+	if (b < static_cast <A> (2)) [[unlikely]] {
+		return static_cast <A> (0);
 	}
-	A c = inverse(b, a);
-	return c == static_cast <A> (-1) ? static_cast <A> (-1) :
-	static_cast <A> (((1LL - static_cast <long long> (b) * c) / a + b) % b);
+	A b0 = b;
+	A x = static_cast <A> (1), y = static_cast <A> (0);
+	while (static_cast <A> (1) < a) {
+		if (!(static_cast <A> (0) < b)) [[unlikely]] {
+			return static_cast <A> (0);
+		}
+		A quo = a / b;
+		A t = b;
+		b = a % b;
+		a = t;
+		t = y;
+		y = x - quo * y;
+		x = t;
+	}
+	if (x < static_cast <A> (0)) {
+		x += b0;
+	}
+	return x;
 }
 
 template <int MOD, bool IS_PRIME = false> class Mint {
@@ -73,16 +88,15 @@ public:
 	}
 	
 	friend inline Mint <MOD, IS_PRIME> inverse(const Mint <MOD, IS_PRIME>& mint) noexcept {
-		if (IS_PRIME) {
+		if constexpr (IS_PRIME) {
 			return pow(mint, MOD - 2);
 		}
-		static Mint <MOD, IS_PRIME> s_inverse = inverse((int) mint, MOD);
-		return s_inverse;
+		return inverse((int) mint, MOD);
 	}
 	
 	template <typename A> static inline Mint <MOD, IS_PRIME> pow(Mint <MOD, IS_PRIME> mint, A exponent) noexcept {
 		static_assert (std::is_fundamental <A>::value);
-		if (exponent < static_cast <A> (0)) {
+		if (exponent < static_cast <A> (0)) [[unlikely]] {
 			return inverse(pow(mint, -exponent));
 		}
 		Mint <MOD, IS_PRIME> result(1);
@@ -129,7 +143,7 @@ public:
 	}
 	
 	static inline Mint <MOD, IS_PRIME> factorial(const size_t x) noexcept {
-		if (static_cast <long long> (x) < 0LL) {
+		if (static_cast <long long> (x) < 0LL) [[unlikely]] {
 			return Mint <MOD, IS_PRIME> (0);
 		}
 		static size_t ready = static_cast <size_t> (1);
@@ -147,7 +161,7 @@ public:
 	}
 	
 	static inline Mint <MOD, IS_PRIME> inverse_factorial(const size_t x) noexcept {
-		if (static_cast <long long> (x) < 0LL) {
+		if (static_cast <long long> (x) < 0LL) [[unlikely]] {
 			return Mint <MOD, IS_PRIME> (0);
 		}
 		static size_t ready = static_cast <size_t> (1);
@@ -166,7 +180,7 @@ public:
 	}
 	
 	static inline Mint <MOD, IS_PRIME> choose(const size_t n, const size_t k) noexcept {
-		if (static_cast <long long> (k) < 0LL || k > n) {
+		if (static_cast <long long> (k) < 0LL || k > n) [[unlikely]] {
 			return Mint <MOD, IS_PRIME> (0);
 		}
 		return factorial(n) * inverse_factorial(k) * inverse_factorial(n - k);
