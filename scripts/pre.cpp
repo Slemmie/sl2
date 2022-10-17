@@ -76,14 +76,29 @@ std::string abs_install_dir() noexcept; // TODO: make this
 // std::string::find_first_of() but match entire string
 size_t find_first_of(const std::string& str, const std::string& pattern) noexcept;
 
+// convert Arg_info::cxx_version to string form
+std::string cxx_version_string(const Arg_info& arg_info) noexcept;
+
 int main(int argc, char** argv) {
 	Arg_info arg_info = parse_clargs(argc, (const char**) argv);
 	
+	std::cerr << "[info]: C++ version: " << cxx_version_string(arg_info) << std::endl;
+	if (arg_info.keep_include) {
+		std::cerr << "[info]: keeping additional includes" << std::endl;
+	}
+	std::cerr << "\nfetching input source..." << std::endl;
+	
 	Source_info source_info = get_input_source(arg_info);
+	
+	std::cerr << "parsing..." << std::endl;
 	
 	parse_source_code(arg_info, source_info);
 	
+	std::cerr << "writing to '" << arg_info.output_file << "'..." << std::endl;
+	
 	write_to_output_file(arg_info, source_info);
+	
+	std::cerr << "done" << std::endl;
 }
 
 Arg_info parse_clargs(int argc, const char** argv) noexcept {
@@ -201,7 +216,8 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		exit(EXIT_FAILURE);
 	}
 	if (result.output_file.empty()) {
-		std::cerr << "[info]: output file defualting to 'out.cpp'" << std::endl;
+		// do not log for now
+		//std::cerr << "[info]: output file defualting to 'out.cpp'" << std::endl;
 		
 		result.output_file = "out.cpp";
 	}
@@ -239,7 +255,7 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 	// look for any include statements that include an sl2 header and unfold them
 	// ... recursively
 	auto unfold_sl2_headers = [&already_unfolded_sl2_headers, &arg_info]
-	(auto&& self, const std::vector <std::string>& source_code) -> std::vector <std::string> {
+	(auto&& self, const std::vector <std::string>& source_code, bool is_root = false) -> std::vector <std::string> {
 		std::vector <sl2_header_info> header_info;
 		
 		// find all include statements that include an sl2 header
@@ -409,7 +425,7 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 				hi_ptr++;
 			} else {
 				// potentially exclude non sl2/ - '#include' lines
-				if (find_first_of(line, "#include") != std::string::npos && !arg_info.keep_include) {
+				if (find_first_of(line, "#include") != std::string::npos && !arg_info.keep_include && !is_root) {
 					continue;
 				}
 				
@@ -420,7 +436,7 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 		return result;
 	};
 	
-	std::vector <std::string> result = unfold_sl2_headers(unfold_sl2_headers, source_info.input_source);
+	std::vector <std::string> result = unfold_sl2_headers(unfold_sl2_headers, source_info.input_source, true);
 	
 	std::vector <std::string> stripped_result;
 	
@@ -511,4 +527,16 @@ size_t find_first_of(const std::string& str, const std::string& pattern) noexcep
 	}
 	
 	return std::string::npos;
+}
+
+std::string cxx_version_string(const Arg_info& arg_info) noexcept {
+	switch (arg_info.cxx_version) {
+		case Arg_info::CXX_VERSION::V_DEFUALT:
+		case Arg_info::CXX_VERSION::V_20: return "c++20";
+		case Arg_info::CXX_VERSION::V_17: return "c++17";
+		case Arg_info::CXX_VERSION::V_OLD: return "older (defaulting to c++17)";
+		default: break;
+	}
+	
+	return "[unknown]";
 }
