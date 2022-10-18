@@ -71,7 +71,7 @@ std::vector <std::string> read_file(const std::string& file_path);
 #ifndef INSTALL_DIR
 #error "missing install directory macro"
 #endif
-std::string abs_install_dir() noexcept; // TODO: make this
+std::string abs_install_dir() noexcept;
 
 // std::string::find_first_of() but match entire string
 size_t find_first_of(const std::string& str, const std::string& pattern) noexcept;
@@ -308,8 +308,6 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 				std::string header_path =
 				std::string(line.begin() + begin_angular_bracket + std::string("<sl2/").size(), line.begin() + end_angular_bracket);
 				
-				// TODO: use abs_install_dir to check if a non .h* file exists in sl2 base dir - then expand correct file
-				//       or if it is a .h* file then check c++ version and locate header accordingly
 				bool is_h_file = header_path.find_last_of('.') != std::string::npos;
 				
 				if (is_h_file) {
