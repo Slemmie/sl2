@@ -101,11 +101,11 @@ public:
 		}
 		Mint <MOD, IS_PRIME> result(1);
 		while (exponent) {
-			if (exponent & 1) {
+			if (exponent & static_cast <A> (1)) {
 				result *= mint;
 			}
 			mint *= mint;
-			exponent >>= 1;
+			exponent >>= static_cast <A> (1);
 		}
 		return result;
 	}
