@@ -96,7 +96,7 @@ public:
 	
 	template <typename A> static inline Mint <MOD, IS_PRIME> pow(Mint <MOD, IS_PRIME> mint, A exponent) noexcept {
 		static_assert (std::is_fundamental <A>::value);
-		if (exponent < static_cast <A> (0)) [[unlikely]] {
+		if (exponent < static_cast <A> (0)) {
 			return inverse(pow(mint, -exponent));
 		}
 		Mint <MOD, IS_PRIME> result(1);
