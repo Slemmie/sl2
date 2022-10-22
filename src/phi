@@ -1,0 +1,9 @@
+#pragma once
+
+#if (__cplusplus == 202002L)
+#include "c++20/phi.h"
+#elif (__cplusplus == 201703L)
+#include "c++17/phi.h"
+#else
+#include "c++17/phi.h"
+#endif
