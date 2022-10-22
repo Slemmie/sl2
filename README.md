@@ -8,6 +8,7 @@ competetive programming library 2
 # Todo
 - template.cpp
 - debugger
+- mod int class for mod values unknown at compile time
 - fenwick tree
 - 2D fenwick tree
 - hash map header that beats std::unordered_map
