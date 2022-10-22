@@ -28,6 +28,22 @@ template <typename A> inline A inverse(A a, A b) noexcept {
 	return x;
 }
 
+template <typename A> consteval A phi(A x) noexcept {
+	A result = x;
+	for (A i = static_cast <A> (2); i * i <= x; i++) {
+		if (!(x % i)) {
+			while (!(x % i)) {
+				x /= i;
+			}
+			result -= result / i;
+		}
+	}
+	if (x > static_cast <A> (1)) {
+		return result - result / x;
+	}
+	return result;
+}
+
 template <int MOD, bool IS_PRIME = false> class Mint {
 	
 public:
@@ -110,24 +126,16 @@ public:
 	}
 	
 	friend inline Mint <MOD, IS_PRIME> inverse(const Mint <MOD, IS_PRIME>& mint) noexcept {
-		if constexpr (IS_PRIME) {
-			return pow(mint, MOD - 2);
-		}
-		return inverse((int) mint, MOD);
+		return pow(mint, m_phi - 1);
 	}
 	
 	template <typename A> static inline Mint <MOD, IS_PRIME> pow(Mint <MOD, IS_PRIME> mint, A exponent) noexcept {
 		static_assert (std::is_fundamental <A>::value);
 		if (exponent < static_cast <A> (0)) {
-			if constexpr (IS_PRIME) {
-				return pow(mint, exponent % (MOD - 1) + MOD - 1);
-			}
-			return inverse(pow(mint, -exponent));
+			return pow(mint, exponent % m_phi + m_phi);
 		}
-		if constexpr (IS_PRIME) {
-			if (exponent >= MOD - 1) {
-				exponent %= MOD - 1;
-			}
+		if (exponent >= m_phi) {
+			exponent %= m_phi;
 		}
 		Mint <MOD, IS_PRIME> result(1);
 		while (exponent) {
@@ -247,6 +255,8 @@ public:
 private:
 	
 	int m_value;
+	
+	static constexpr int m_phi = IS_PRIME ? MOD - 1 : phi <int> (MOD);
 	
 	constexpr int m_fix(int value) const noexcept {
 		if (value < MOD && value >= 0) {
