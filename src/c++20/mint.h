@@ -1,5 +1,7 @@
 #pragma once
 
+#include <sl2/c++20/phi.h>
+
 #include <limits>
 #include <iostream>
 #include <vector>
@@ -216,23 +218,7 @@ private:
 	
 	int m_value;
 	
-	template <typename A> static consteval A phi_consteval(A x) noexcept {
-		A result = x;
-		for (A i = static_cast <A> (2); i * i <= x; i++) {
-			if (!(x % i)) {
-				while (!(x % i)) {
-					x /= i;
-				}
-				result -= result / i;
-			}
-		}
-		if (x > static_cast <A> (1)) {
-			return result - result / x;
-		}
-		return result;
-	}
-	
-	static constexpr int m_phi = IS_PRIME ? MOD - 1 : phi_consteval <int> (MOD);
+	static constexpr int m_phi = IS_PRIME ? MOD - 1 : phi <int> (MOD);
 	
 	constexpr int m_fix(int value) const noexcept {
 		if (value < MOD && value >= 0) {
