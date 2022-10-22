@@ -2,13 +2,16 @@
 competetive programming library 2
 
 # Content
-- mod int class
-- dsu
+| desciption | C++17 header | C++20 header |
+| ---------- | ------------ | ------------ |
+| mod int class | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint.h) |
+| multiplicative inverse function | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/inverse.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/inverse.h) |
+| euler's totient (phi) function | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/phi.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/phi.h) |
+| disjoint union set class | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) |
 
 # Todo
 - template.cpp
 - debugger
-- mod int class for mod values unknown at compile time
 - fenwick tree
 - 2D fenwick tree
 - hash map header that beats std::unordered_map
