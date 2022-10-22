@@ -20,10 +20,14 @@ competetive programming library 2
 - dynamic segment tree
 - lazy segment tree
 - dynamic lazy segment tree
+- persistent segment tree
+- persistent lazy segment tree
 - 2D segment tree (consider making Segtree \<Segtree \<Node\> \> possible instead)
 - 2D dynamic segment tree (consider making Dynamic_segtree \<Dynamic_segtree \<Node\> \> possible instead)
 - 2D lazy segment tree (consider making Lazy_segtree \<Lazy_segtree \<Node\> \> possible instead)
 - 2D dynamic lazy segment tree (consider making Dynamic_lazy_segtree \<Dynamic_lazy_segtree \<Node\> \> possible instead)
+- 2D persistent segment tree (consider making Persistent_segtree \<Persistent_segtree \<Node\> \> possible instead)
+- 2D persistent lazy segment tree (consider making Persistent_lazy_segtree \<Persistent_lazy_segtree \<Node\> \> possible instead)
 - li chao tree
 - convex hull trick
 - square matrix object
