@@ -5,6 +5,7 @@ competetive programming library 2
 | desciption | C++17 header | C++20 header |
 | ---------- | ------------ | ------------ |
 | mod int class | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint.h) |
+| mod int class typedeffing 'mi' to use 998244353 | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint9.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint9.h) |
 | multiplicative inverse function | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/inverse.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/inverse.h) |
 | euler's totient (phi) function | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/phi.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/phi.h) |
 | disjoint union set class | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [shortcut](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) |
