@@ -11,7 +11,7 @@ template <typename A> inline A inverse(A a, A b) noexcept {
 	A b0 = b;
 	A x = static_cast <A> (1), y = static_cast <A> (0);
 	while (static_cast <A> (1) < a) {
-		if (!(static_cast <A> (0) < b)) [[unlikely]] {
+		if (!(static_cast <A> (0) < b)) {
 			return static_cast <A> (0);
 		}
 		A quo = a / b;
@@ -36,15 +36,24 @@ public:
 		return this->m_value;
 	}
 	
-	constexpr Mint(const int _value = 0) noexcept : m_value(m_fix(_value)) { }
+	constexpr Mint(const int _value = 0) noexcept : m_value(this->m_fix(_value)) { }
+	
+	constexpr Mint(const Mint& _mint) noexcept : m_value(_mint.m_value) { }
 	
 	template <typename A> inline Mint(const A& _value) noexcept {
-		const long long llvalue = static_cast <long long> (_value);
-		if (-(static_cast <long long> (MOD)) > llvalue || llvalue > static_cast <long long> (MOD)) {
-			this->m_value = m_fix(static_cast <int> (llvalue % MOD));
+		if (_value < static_cast <A> (MOD) && _value >= static_cast <A> (0)) {
+			this->m_value = (int) _value;
 			return;
 		}
-		this->m_value = m_fix(static_cast <int> (llvalue));
+		static constexpr const __uint128_t niv = ~1ULL / MOD;
+		long long llvalue = (long long) _value - ((niv * _value) >> 64LL) * MOD;
+		if (llvalue < 0LL) {
+			llvalue += MOD;
+		}
+		if (llvalue >= MOD) {
+			llvalue -= MOD;
+		}
+		this->m_value = static_cast <int> (llvalue);
 	}
 	
 	constexpr bool operator == (const Mint <MOD, IS_PRIME>& other) const noexcept {
@@ -60,7 +69,7 @@ public:
 	}
 	
 	constexpr Mint <MOD, IS_PRIME> operator - () const noexcept {
-		return Mint <MOD, IS_PRIME> (-this->m_value);
+		return Mint <MOD, IS_PRIME> (-this->m_value + MOD);
 	}
 	
 	inline Mint <MOD, IS_PRIME>& operator += (const Mint <MOD, IS_PRIME>& other) noexcept {
@@ -78,7 +87,20 @@ public:
 	}
 	
 	inline Mint <MOD, IS_PRIME>& operator *= (const Mint <MOD, IS_PRIME>& other) noexcept {
-		this->m_value = static_cast <long long> (this->m_value) * (int) other % MOD;
+		long long value = static_cast <long long> (this->m_value) * (int) other;
+		if (value < MOD && value >= 0LL) {
+			this->m_value = value;
+			return *this;
+		}
+		static constexpr const __uint128_t niv = ~1ULL / MOD;
+		value -= ((niv * value) >> 64LL) * MOD;
+		if (value < 0LL) {
+			value += MOD;
+		}
+		if (value >= MOD) {
+			value -= MOD;
+		}
+		this->m_value = static_cast <int> (value);
 		return *this;
 	}
 	
@@ -97,15 +119,23 @@ public:
 	template <typename A> static inline Mint <MOD, IS_PRIME> pow(Mint <MOD, IS_PRIME> mint, A exponent) noexcept {
 		static_assert (std::is_fundamental <A>::value);
 		if (exponent < static_cast <A> (0)) {
+			if constexpr (IS_PRIME) {
+				return pow(mint, exponent % (MOD - 1) + MOD - 1);
+			}
 			return inverse(pow(mint, -exponent));
+		}
+		if constexpr (IS_PRIME) {
+			if (exponent >= MOD - 1) {
+				exponent %= MOD - 1;
+			}
 		}
 		Mint <MOD, IS_PRIME> result(1);
 		while (exponent) {
 			if (exponent & static_cast <A> (1)) {
 				result *= mint;
 			}
-			mint *= mint;
 			exponent >>= static_cast <A> (1);
+			mint *= mint;
 		}
 		return result;
 	}
@@ -191,7 +221,27 @@ public:
 	}
 	
 	friend inline std::istream& operator >> (std::istream& stream, Mint <MOD, IS_PRIME>& mint) {
-		return stream >> mint.m_value;
+		stream >> mint.m_value;
+		mint.m_value = mint.m_fix(mint.m_value);
+		return stream;
+	}
+	
+	template <std::istream& STREAM = std::cin> inline void readl() {
+		long long value;
+		STREAM >> value;
+		if (value < MOD && value >= 0LL) {
+			this->m_value = value;
+			return;
+		}
+		static constexpr const __uint128_t niv = ~1ULL / MOD;
+		value -= ((niv * value) >> 64LL) * MOD;
+		if (value < 0LL) {
+			value += MOD;
+		}
+		if (value >= MOD) {
+			value -= MOD;
+		}
+		this->m_value = static_cast <int> (value);
 	}
 	
 private:
@@ -199,12 +249,17 @@ private:
 	int m_value;
 	
 	constexpr int m_fix(int value) const noexcept {
+		if (value < MOD && value >= 0) {
+			return value;
+		}
 		if (value < 0) {
 			value = (value % MOD) + MOD;
 		}
 		if (value >= MOD) {
-			if constexpr (((std::numeric_limits <int>::max() >> 1) | 1) < MOD) {
-				value -= MOD;
+			if constexpr ((std::numeric_limits <int>::max() >> 2) < MOD) {
+				while (value >= MOD) {
+					value -= MOD;
+				}
 			} else {
 				value %= MOD;
 			}
