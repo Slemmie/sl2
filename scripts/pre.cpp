@@ -32,6 +32,9 @@ struct Arg_info {
 	// keep non sl2/ - '#include' lines
 	bool keep_include = false;
 	
+	// print usage information
+	bool help_flag = false;
+	
 };
 
 // parse command line arguments
@@ -48,6 +51,9 @@ struct Source_info {
 	std::string output_source;
 	
 };
+
+// print help (script usage information)
+void print_help() noexcept;
 
 // read input file from 'arg_info' and fill 'input_source' buffer in returned object
 Source_info get_input_source(const Arg_info& arg_info) noexcept;
@@ -82,6 +88,12 @@ std::string cxx_version_string(const Arg_info& arg_info) noexcept;
 int main(int argc, char** argv) {
 	Arg_info arg_info = parse_clargs(argc, (const char**) argv);
 	
+	if (arg_info.help_flag) {
+		print_help();
+		
+		return 0;
+	}
+	
 	std::cerr << "[info]: C++ version: " << cxx_version_string(arg_info) << std::endl;
 	if (arg_info.keep_include) {
 		std::cerr << "[info]: keeping additional includes" << std::endl;
@@ -104,7 +116,7 @@ int main(int argc, char** argv) {
 Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	// require at least an input file
 	if (argc < 2) {
-		std::cerr << "[fatal]: missing input file" << std::endl;
+		std::cerr << "[fatal]: missing input file (get help with '$ pre --help')" << std::endl;
 		
 		exit(EXIT_FAILURE);
 	}
@@ -120,7 +132,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		
 		if (args[i - 1] == "-o") {
 			if (has_o_flag) {
-				std::cerr << "[fatal]: multiple occurrences of '-o' flag" << std::endl;
+				std::cerr << "[fatal]: multiple occurrences of '-o' flag (get help with '$ pre --help')" << std::endl;
 				
 				exit(EXIT_FAILURE);
 			}
@@ -130,6 +142,12 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	}
 	
 	for (size_t i = 0; i < args.size(); i++) {
+		if (args[i] == "-h" || args[i] == "-help" || args[i] == "--help") {
+			result.help_flag = true;
+			
+			continue;
+		}
+		
 		if (args[i] == "-ki" || args[i] == "--keep_include" || args[i] == "--keep_includes") {
 			result.keep_include = true;
 			
@@ -181,7 +199,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		// expect output file
 		if (args[i] == "-o") {
 			if (i + 1 == args.size()) {
-				std::cerr << "[fatal]: expected output file after '-o' flag" << std::endl;
+				std::cerr << "[fatal]: expected output file after '-o' flag (get help with '$ pre --help')" << std::endl;
 				
 				exit(EXIT_FAILURE);
 			}
@@ -195,7 +213,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 			// do not allow multiple input files
 			// if '-o' flag is used, possible output file interpretation is not allowed
 			if (has_o_flag || !result.output_file.empty()) {
-				std::cerr << "[fatal]: multiple input files specified" << std::endl;
+				std::cerr << "[fatal]: multiple input files specified (get help with '$ pre --help')" << std::endl;
 				
 				exit(EXIT_FAILURE);
 			}
@@ -210,8 +228,8 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	}
 	
 	// check for collected information
-	if (result.input_file.empty()) {
-		std::cerr << "[fatal]: missing input file" << std::endl;
+	if (result.input_file.empty() && !result.help_flag) {
+		std::cerr << "[fatal]: missing input file (get help with '$ pre --help')" << std::endl;
 		
 		exit(EXIT_FAILURE);
 	}
@@ -223,6 +241,30 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	}
 	
 	return result;
+}
+
+void print_help() noexcept {
+	std::cout << " -- pre (sl2) help --" << std::endl;
+	std::cout << std::endl;
+	std::cout << "  usage:" << std::endl;
+	std::cout << "  $ pre {flags}" << std::endl;
+	std::cout << std::endl;
+	std::cout << "  '-h'/'-help'/'--help'                                           " <<
+	"-  show this message" << std::endl;
+	std::cout << "  '20'/'2a'/'c++20'/'C++20'/'c++2a'/'C++2a'/'gnu++20'/'gnu++2a'   " <<
+	"-  prepare file using C++20 sl2 headers" << std::endl;
+	std::cout << "  '17'/'c++17'/'C++17''gnu++17'                                   " <<
+	"-  prepare file using C++17 sl2 headers" << std::endl;
+	std::cout << "  '-old'/'c++old'/'C++old'/'c++<14/11/03/98>'/'C++<14/11/03/98>'  " <<
+	"-  prepare file using older C++ sl2 headers (defaults to C++17)" << std::endl;
+	std::cout << "  '-ki'/'--keep_include'/'--keep_includes'                        " <<
+	"-  keep unrecognized (like stl) includes from sl2 headers (default: will be removed)" << std::endl;
+	std::cout << "  '-o'                                                            " <<
+	"-  should be followed by a filepath to where the unfolded file should be put" << std::endl;
+	std::cout << std::endl;
+	std::cout << "  any other arguments will be interpreted as filepaths, first filepath should be the input file, second should be the output filepath" << std::endl;
+	std::cout << "  if no output filepath is specified, default to ./out.cpp" << std::endl;
+	std::cout << "  if output filepath does not exist, it will be created (the directory specified must exist)" << std::endl;
 }
 
 Source_info get_input_source(const Arg_info& arg_info) noexcept {
