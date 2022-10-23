@@ -255,7 +255,7 @@ void print_help() noexcept {
 	std::cout << "  '-h'/'-help'/'--help'                                           " <<
 	"-  show this message" << std::endl;
 	std::cout << "  '20'/'2a'/'c++20'/'C++20'/'c++2a'/'C++2a'/'gnu++20'/'gnu++2a'   " <<
-	"-  prepare file using C++20 sl2 headers" << std::endl;
+	"-  prepare file using C++20 sl2 headers (this C++ version is default if no other specification is given)" << std::endl;
 	std::cout << "  '17'/'c++17'/'C++17''gnu++17'                                   " <<
 	"-  prepare file using C++17 sl2 headers" << std::endl;
 	std::cout << "  '-old'/'c++old'/'C++old'/'c++<14/11/03/98>'/'C++<14/11/03/98>'  " <<
