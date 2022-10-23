@@ -22,12 +22,12 @@ competetive programming library 2
 - dynamic lazy segment tree
 - persistent segment tree
 - persistent lazy segment tree
-- 2D segment tree (consider making Segtree \<Segtree \<Node\> \> possible instead)
-- 2D dynamic segment tree (consider making Dynamic_segtree \<Dynamic_segtree \<Node\> \> possible instead)
-- 2D lazy segment tree (consider making Lazy_segtree \<Lazy_segtree \<Node\> \> possible instead)
-- 2D dynamic lazy segment tree (consider making Dynamic_lazy_segtree \<Dynamic_lazy_segtree \<Node\> \> possible instead)
-- 2D persistent segment tree (consider making Persistent_segtree \<Persistent_segtree \<Node\> \> possible instead)
-- 2D persistent lazy segment tree (consider making Persistent_lazy_segtree \<Persistent_lazy_segtree \<Node\> \> possible instead)
+- 2D segment tree (consider making ```Segtree <Segtree <Node>>``` possible instead)
+- 2D dynamic segment tree (consider making ```Dynamic_segtree <Dynamic_segtree <Node>>``` possible instead)
+- 2D lazy segment tree (consider making ```Lazy_segtree <Lazy_segtree <Node>>``` possible instead)
+- 2D dynamic lazy segment tree (consider making ```Dynamic_lazy_segtree <Dynamic_lazy_segtree <Node>>``` possible instead)
+- 2D persistent segment tree (consider making ```Persistent_segtree <Persistent_segtree <Node>>``` possible instead)
+- 2D persistent lazy segment tree (consider making ```Persistent_lazy_segtree <Persistent_lazy_segtree <Node>>``` possible instead)
 - li chao tree
 - convex hull trick
 - square matrix object
@@ -117,7 +117,7 @@ competetive programming library 2
 - $\mathcal{O}(Vlog(V) + Q)$ lowest common ancestor (use sparse table) (extend for forests)
 - $\mathcal{O}(log(V))$ amortized all operations link-cut tree
 - $\mathcal{O}(3^{V \over 3})$ find all maximal cliques (bron kerbosch)
-- ($V \le$ ~150 ish) find any maximally sized clique ("maximum clique algorithm")
+- $V \le$ ~150 ish; find any maximally sized clique ("maximum clique algorithm")
 - maximal independent set
 - $\mathcal{O}(E^2)$ minimum cost maximum flow
 - retrieval of set of vertices making up left (source) side of minimum cut
@@ -144,7 +144,7 @@ competetive programming library 2
 - directed graph negative cycle finding
 - k shortest paths finding
 - chinese remainder theorem
-- fraction $p \over q$ closest approximation of $x \ge 0$ - obeys $|{ p \over q } - x| \le { n \over { q } }, q \le n$
+- fraction $p \over q$ closest approximation of $x \ge 0$ - obeys $|{ p \over q } - x| \le { n \over { q } }, p \le n, q \le n$
 - prime sieve (maybe some $\mathcal{O}(n)$ version)
 - sieve for all divisors
 - single number is prime function (maybe millar rabin)
@@ -155,7 +155,7 @@ competetive programming library 2
 - include precomputation of modular inverses in mod int class up to given limit
 - modular log function
 - large modular operations (upwards of $10^{ 18 }$) such as multiplication and exponentiation
-- modular square root function such that the result $x$ gives the other solution implicitly ($-x$)
+- modular square root function such that the result $x$ gives the other solution implicitly $(-x)$
 - $\mathcal{O}(log(n))$ arithmetic progression sums under mod
 - euclids implementation: find $x, y$ such that $ax + by = \gcd(a, b)$
 - phi function for all values less than some limit
@@ -169,7 +169,7 @@ competetive programming library 2
 - fast subset transform and convolution using FST, i.e. $c_k = \sum\nolimits_{k = i \oplus j} a_i \cdot b_j$ where $\oplus$ is either AND/OR/XOR
 - golden section search, i.e. optimized continuous ternary search
 - simple integration of given function over an interval (maybe extend with adaptive simpson's rule)
-- $\mathcal{O}(n^2log(k))$ linear recurrence (retrieve $k$-th term og $n$-th order)
+- $\mathcal{O}(n^2log(k))$ linear recurrence (retrieve $k$-th term of $n$-th order)
 - compute matrix inverse
 - compute matrix inverse under mod
 - number theoretic transform
