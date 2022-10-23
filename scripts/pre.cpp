@@ -246,6 +246,9 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 void print_help() noexcept {
 	std::cout << " -- pre (sl2) help --" << std::endl;
 	std::cout << std::endl;
+	std::cout << "  the script recursively unfolds sl2 headers in a C++ source file such that it may be submitted to an online judge" << std::endl;
+	std::cout << "  this ensures that the judge can compile the source file without 'unrecognized file' errors from include statements" << std::endl;
+	std::cout << std::endl;
 	std::cout << "  usage:" << std::endl;
 	std::cout << "  $ pre {flags}" << std::endl;
 	std::cout << std::endl;
