@@ -9,6 +9,7 @@ export:
 	rm -rf $(INSTALL_DIR)/sl2/
 	mkdir -p $(INSTALL_DIR)/sl2/
 	cp -r ./src/* $(INSTALL_DIR)/sl2/
+	cp -r ./template $(INSTALL_DIR)/sl2/
 
 # ready scripts and export into a ./bin/ directory for easy manual system wide export
 .PHONY: scripts
@@ -16,3 +17,4 @@ scripts:
 	rm -rf ./bin/
 	mkdir -p ./bin/
 	g++ -std=c++2a ./scripts/pre.cpp -o ./bin/pre -O2 -DINSTALL_DIR=$(INSTALL_DIR)
+	g++ -std=c++2a ./scripts/tem.cpp -o ./bin/tem -O2 -DINSTALL_DIR=$(INSTALL_DIR)
