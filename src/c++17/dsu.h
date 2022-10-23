@@ -70,17 +70,7 @@ public:
 		return this->find(vertex);
 	}
 	
-	inline bool unite(unsigned int vertex0, unsigned int vertex1) noexcept {
-		if ((vertex0 = this->find(vertex0)) == (vertex1 = this->find(vertex1))) {
-			return false;
-		}
-		if (this->m_rank[vertex0] < this->m_rank[vertex1]) {
-			std::swap(vertex0, vertex1);
-		}
-		this->m_parent[vertex1] = vertex0;
-		this->m_rank[vertex0] += this->m_rank[vertex0] == this->m_rank[vertex1];
-		return true;
-	}
+	template <bool COMPRESS = true> inline bool unite(unsigned int vertex0, unsigned int vertex1) noexcept;
 	
 	inline void flush(const unsigned int begin, const unsigned int end) noexcept {
 		assert(end <= static_cast <unsigned int> (this->m_parent.size()));
@@ -108,3 +98,26 @@ private:
 	std::vector <unsigned int> m_rank;
 	
 };
+
+template <> inline bool Dsu::unite <true> (unsigned int vertex0, unsigned int vertex1) noexcept {
+	if ((vertex0 = this->find(vertex0)) == (vertex1 = this->find(vertex1))) {
+		return false;
+	}
+	if (this->m_rank[vertex0] < this->m_rank[vertex1]) {
+		std::swap(vertex0, vertex1);
+	}
+	this->m_parent[vertex1] = vertex0;
+	this->m_rank[vertex0] += this->m_rank[vertex0] == this->m_rank[vertex1];
+	this->m_size[vertex0] += this->m_size[vertex1];
+	return true;
+}
+
+template <> inline bool Dsu::unite <false> (unsigned int make_root, unsigned int make_child) noexcept {
+	if ((make_root = this->find(make_root)) == (make_child = this->find(make_child))) {
+		return false;
+	}
+	this->m_parent[make_child] = make_root;
+	this->m_rank[make_root] = std::max(this->m_rank[make_root], this->m_rank[make_child] + 1);
+	this->m_size[make_root] += this->m_size[make_child];
+	return true;
+}
