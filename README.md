@@ -16,7 +16,6 @@ competetive programming library 2
 | disjoint union set class | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) |
 
 # Todo
-- template.cpp
 - debugger
 - fenwick tree
 - 2D fenwick tree
