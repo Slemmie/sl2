@@ -2,6 +2,11 @@
 competetive programming library 2
 
 # Content
+- [C++17 template.cpp](https://github.com/Slemmie/sl2/blob/main/template/c%2B%2B17/template.cpp)
+- [C++20 template.cpp](https://github.com/Slemmie/sl2/blob/main/template/c%2B%2B20/template.cpp)
+
+- [script for recursively unfolding a C++ file using sl2 headers for submission](https://github.com/Slemmie/sl2/blob/main/scripts/pre.cpp)
+
 | desciption | C++17 header | C++20 header |
 | ---------- | ------------ | ------------ |
 | mod int class | [mint.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint.h) | [mint.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint.h) |
