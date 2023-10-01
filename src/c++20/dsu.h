@@ -6,34 +6,53 @@
 #include <iostream>
 
 class Dsu {
-	
+
+	using size_type = unsigned int;
+
 public:
-	
-	inline Dsu(const unsigned int _size = 0) noexcept :
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	Dsu(size_type _size = 0) noexcept :
 	m_parent(_size),
 	m_size(_size, 1),
 	m_rank(_size, 0)
 	{
 		std::iota(this->m_parent.begin(), this->m_parent.end(), 0);
 	}
-	
-	inline void grow(const unsigned int new_size) noexcept {
-		assert(new_size >= static_cast <unsigned int> (this->m_parent.size()));
-		const unsigned int old_size = this->m_parent.size();
+
+	constexpr void grow(size_type new_size) noexcept {
+		if (new_size <= this->size()) [[unlikely]] {
+			return;
+		}
+		const size_type old_size = this->m_parent.size();
 		this->m_parent.resize(new_size);
 		std::iota(this->m_parent.begin() + old_size, this->m_parent.end(), old_size);
 		this->m_size.resize(new_size, 1);
 		this->m_rank.resize(new_size, 0);
 	}
-	
-	inline void clear() noexcept {
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	void clear() noexcept {
 		this->m_parent.clear();
 		this->m_size.clear();
 		this->m_rank.clear();
 	}
-	
-	inline void reset(const unsigned int new_size) noexcept {
-		if (new_size != static_cast <unsigned int> (this->m_parent.size())) {
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	void reset(size_type new_size) noexcept {
+		if (new_size != static_cast <size_type> (this->m_parent.size())) {
 			this->m_parent.resize(new_size);
 			this->m_size.resize(new_size);
 			this->m_rank.resize(new_size);
@@ -42,64 +61,100 @@ public:
 		this->m_size.assign(this->m_size.size(), 1);
 		this->m_rank.assign(this->m_rank.size(), 0);
 	}
-	
-	inline void reset() noexcept {
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	void reset() noexcept {
 		this->reset(this->m_parent.size());
 	}
-	
-	inline unsigned int size() const noexcept {
+
+	constexpr size_type size() const noexcept {
 		return this->m_parent.size();
 	}
-	
-	inline unsigned int size(const unsigned int vertex) noexcept {
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	size_type size(size_type vertex) noexcept {
 		return this->m_size[this->find(vertex)];
 	}
-	
-	inline unsigned int rank(const unsigned int vertex) noexcept {
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	size_type rank(size_type vertex) noexcept {
 		return this->m_rank[this->find(vertex)];
 	}
-	
-	inline unsigned int find(const unsigned int vertex) noexcept {
-		if (vertex >= static_cast <unsigned int> (this->m_parent.size())) [[unlikely]] {
-			this->grow(vertex);
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	size_type find(size_type vertex) noexcept {
+		if (vertex >= static_cast <size_type> (this->m_parent.size())) [[unlikely]] {
+			this->grow(vertex + 1);
 		}
 		return vertex == this->m_parent[vertex] ? vertex : (this->m_parent[vertex] = this->find(this->m_parent[vertex]));
 	}
-	
-	inline unsigned int operator [] (const unsigned int vertex) noexcept {
+
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	size_type operator [] (size_type vertex) noexcept {
 		return this->find(vertex);
 	}
-	
-	template <bool COMPRESS = true> inline bool unite(unsigned int vertex0, unsigned int vertex1) noexcept;
-	
-	inline void flush(const unsigned int begin, const unsigned int end) noexcept {
-		assert(end <= static_cast <unsigned int> (this->m_parent.size()));
-		for (unsigned int vertex = begin; vertex < end; vertex++) {
+
+	template <bool COMPRESS = true>
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+	bool unite(size_type vertex0, size_type vertex1) noexcept;
+
+	constexpr void flush(size_type begin, size_type end) noexcept {
+		for (size_type vertex = begin; vertex < end; vertex++) {
 			this->find(vertex);
 		}
 	}
-	
-	inline void flush() noexcept {
+
+	constexpr void flush() noexcept {
 		this->flush(0, this->m_parent.size());
 	}
-	
+
 	friend inline std::ostream& operator << (std::ostream& stream, Dsu& dsu) {
 		stream << "{ ";
-		for (unsigned int i = 0; i < dsu.size(); i++) {
+		for (size_type i = 0; i < dsu.size(); i++) {
 			stream << dsu[i] << (i + 1 == dsu.size() ? " }" : ", ");
 		}
 		return stream;
 	}
-	
+
 private:
-	
-	std::vector <unsigned int> m_parent;
-	std::vector <unsigned int> m_size;
-	std::vector <unsigned int> m_rank;
-	
+
+	std::vector <size_type> m_parent;
+	std::vector <size_type> m_size;
+	std::vector <size_type> m_rank;
+
 };
 
-template <> inline bool Dsu::unite <true> (unsigned int vertex0, unsigned int vertex1) noexcept {
+template <>
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+bool Dsu::unite <true> (size_type vertex0, size_type vertex1) noexcept {
 	if ((vertex0 = this->find(vertex0)) == (vertex1 = this->find(vertex1))) {
 		return false;
 	}
@@ -112,7 +167,13 @@ template <> inline bool Dsu::unite <true> (unsigned int vertex0, unsigned int ve
 	return true;
 }
 
-template <> inline bool Dsu::unite <false> (unsigned int make_root, unsigned int make_child) noexcept {
+template <>
+#ifdef _GLIBCXX_DEBUG
+	inline
+#else
+	constexpr
+#endif
+bool Dsu::unite <false> (size_type make_root, size_type make_child) noexcept {
 	if ((make_root = this->find(make_root)) == (make_child = this->find(make_child))) {
 		return false;
 	}
