@@ -7,26 +7,22 @@
 #include <filesystem>
 
 struct Arg_info {
-	
 	// file path
 	std::string output_file;
-	
+
 	enum class CXX_VERSION {
-		
 		V_20, // C++ 20
 		V_17, // C++ 17
 		V_OLD, // < C++ 17 (C++ 17 will be headers used)
-		
+
 		V_DEFUALT // C++ 20
-		
 	};
-	
+
 	// C++ version used
 	CXX_VERSION cxx_version = CXX_VERSION::V_DEFUALT;
-	
+
 	// print usage information
 	bool help_flag = false;
-	
 };
 
 // parse command line arguments
@@ -53,18 +49,17 @@ std::string cxx_version_string(const Arg_info& arg_info) noexcept;
 
 int main(int argc, char** argv) {
 	Arg_info arg_info = parse_clargs(argc, (const char**) argv);
-	
+
 	if (arg_info.help_flag) {
 		print_help();
-		
 		return 0;
 	}
-	
+
 	std::cerr << "[info]: C++ version: " << cxx_version_string(arg_info) << std::endl;
 	std::cerr << "copying to '" << arg_info.output_file << "'..." << std::endl;
-	
+
 	copy_file(arg_info);
-	
+
 	std::cerr << "done" << std::endl;
 }
 
@@ -72,37 +67,34 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	// require at least the output file
 	if (argc < 2) {
 		std::cerr << "[fatal]: missing output file (get help with '$ tem --help')" << std::endl;
-		
 		exit(EXIT_FAILURE);
 	}
-	
+
 	Arg_info result;
-	
+
 	bool has_o_flag = false;
-	
+
 	// gather arguments and check for '-o' flag occurrence
 	std::vector <std::string> args(argc - 1);
 	for (int i = 1; i < argc; i++) {
 		args[i - 1] = argv[i];
-		
+
 		if (args[i - 1] == "-o") {
 			if (has_o_flag) {
 				std::cerr << "[fatal]: multiple occurrences of '-o' flag (get help with '$ tem --help')" << std::endl;
-				
 				exit(EXIT_FAILURE);
 			}
-			
+
 			has_o_flag = true;
 		}
 	}
-	
+
 	for (size_t i = 0; i < args.size(); i++) {
 		if (args[i] == "-h" || args[i] == "-help" || args[i] == "--help") {
 			result.help_flag = true;
-			
 			continue;
 		}
-		
+
 		if (
 		args[i] == "20" ||
 		args[i] == "2a" ||
@@ -113,7 +105,6 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		args[i] == "gnu++20" ||
 		args[i] == "gnu++2a") { // C++ version 20
 			result.cxx_version = Arg_info::CXX_VERSION::V_20;
-			
 			continue;
 		} else if (
 		// only override 'result.cxx_version' if C++ 20 has not yet been specified
@@ -123,7 +114,6 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		args[i] == "C++17" ||
 		args[i] == "gnu++17")) { // C++ version 17
 			result.cxx_version = Arg_info::CXX_VERSION::V_17;
-			
 			continue;
 		} else if (
 		// only override 'result.cxx_version' if neither C++ 20 nor C++ 17 had need specified yet
@@ -141,7 +131,6 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		args[i] == "c++98" ||
 		args[i] == "C++98")) { // old (potentially depricated) C++ version - will attempt to use C++ 17 headers
 			result.cxx_version = Arg_info::CXX_VERSION::V_OLD;
-			
 			continue;
 		}
 		
@@ -149,34 +138,30 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		if (args[i] == "-o") {
 			if (i + 1 == args.size()) {
 				std::cerr << "[fatal]: expected output file after '-o' flag (get help with '$ tem --help')" << std::endl;
-				
 				exit(EXIT_FAILURE);
 			}
-			
+
 			result.output_file = args[++i];
-			
+
 			continue;
 		}
-		
+
 		// do not allow multiple output files
 		// if '-o' flag is used, this counts as multiple output file error
 		if (has_o_flag || !result.output_file.empty()) {
 			std::cerr << "[fatal]: multiple output files specified (get help with '$ tem --help')" << std::endl;
-			
 			exit(EXIT_FAILURE);
 		}
-		
-		
+
 		result.output_file = args[i];
 	}
-	
+
 	// check for collected information
 	if (result.output_file.empty() && !result.help_flag) {
 		std::cerr << "[fatal]: missing output file (get help with '$ tem --help')" << std::endl;
-		
 		exit(EXIT_FAILURE);
 	}
-	
+
 	return result;
 }
 
@@ -209,14 +194,13 @@ void copy_file(const Arg_info& arg_info) noexcept {
 	arg_info.cxx_version == Arg_info::CXX_VERSION::V_20 ||
 	arg_info.cxx_version == Arg_info::CXX_VERSION::V_DEFUALT ?
 	"c++20" : "c++17";
-	
+
 	const std::string template_filepath = abs_install_dir() + "/sl2/template/" + cxx_version_path + "/template.cpp";
-	
+
 	try {
 		std::filesystem::copy(template_filepath, arg_info.output_file);
 	} catch (const std::filesystem::filesystem_error& e) {
 		std::cerr << "[fatal]: " << e.what() << std::endl;
-		
 		exit(EXIT_FAILURE);
 	}
 }
@@ -239,6 +223,6 @@ std::string cxx_version_string(const Arg_info& arg_info) noexcept {
 		case Arg_info::CXX_VERSION::V_OLD: return "older (defaulting to c++17)";
 		default: break;
 	}
-	
+
 	return "[unknown]";
 }
