@@ -10,8 +10,5 @@ template <typename A> constexpr A phi(A x) noexcept {
 			result -= result / i;
 		}
 	}
-	if (x > static_cast <A> (1)) {
-		return result - result / x;
-	}
-	return result;
+	return x > static_cast <A> (1) ? result - result / x : result;
 }
