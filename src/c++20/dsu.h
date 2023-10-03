@@ -16,7 +16,7 @@ public:
 #else
 	constexpr
 #endif
-	Dsu(size_type _size = 0) noexcept :
+	Dsu(size_type _size = 0) :
 	m_parent(_size),
 	m_size(_size, 1),
 	m_rank(_size, 0)
@@ -24,7 +24,7 @@ public:
 		std::iota(this->m_parent.begin(), this->m_parent.end(), 0);
 	}
 
-	constexpr void grow(size_type new_size) noexcept {
+	constexpr void grow(size_type new_size) {
 		if (new_size <= this->size()) [[unlikely]] {
 			return;
 		}
@@ -51,7 +51,7 @@ public:
 #else
 	constexpr
 #endif
-	void reset(size_type new_size) noexcept {
+	void reset(size_type new_size) {
 		if (new_size != static_cast <size_type> (this->m_parent.size())) {
 			this->m_parent.resize(new_size);
 			this->m_size.resize(new_size);
@@ -67,7 +67,7 @@ public:
 #else
 	constexpr
 #endif
-	void reset() noexcept {
+	void reset() {
 		this->reset(this->m_parent.size());
 	}
 
@@ -80,7 +80,7 @@ public:
 #else
 	constexpr
 #endif
-	size_type size(size_type vertex) noexcept {
+	size_type size(size_type vertex) {
 		return this->m_size[this->find(vertex)];
 	}
 
@@ -89,7 +89,7 @@ public:
 #else
 	constexpr
 #endif
-	size_type rank(size_type vertex) noexcept {
+	size_type rank(size_type vertex) {
 		return this->m_rank[this->find(vertex)];
 	}
 
@@ -98,7 +98,7 @@ public:
 #else
 	constexpr
 #endif
-	size_type find(size_type vertex) noexcept {
+	size_type find(size_type vertex) {
 		if (vertex >= static_cast <size_type> (this->m_parent.size())) [[unlikely]] {
 			this->grow(vertex + 1);
 		}
@@ -110,7 +110,7 @@ public:
 #else
 	constexpr
 #endif
-	size_type operator [] (size_type vertex) noexcept {
+	size_type operator [] (size_type vertex) {
 		return this->find(vertex);
 	}
 
@@ -120,15 +120,15 @@ public:
 #else
 	constexpr
 #endif
-	bool unite(size_type vertex0, size_type vertex1) noexcept;
+	bool unite(size_type vertex0, size_type vertex1);
 
-	constexpr void flush(size_type begin, size_type end) noexcept {
+	constexpr void flush(size_type begin, size_type end) {
 		for (size_type vertex = begin; vertex < end; vertex++) {
 			this->find(vertex);
 		}
 	}
 
-	constexpr void flush() noexcept {
+	constexpr void flush() {
 		this->flush(0, this->m_parent.size());
 	}
 
@@ -154,7 +154,7 @@ template <>
 #else
 	constexpr
 #endif
-bool Dsu::unite <true> (size_type vertex0, size_type vertex1) noexcept {
+bool Dsu::unite <true> (size_type vertex0, size_type vertex1) {
 	if ((vertex0 = this->find(vertex0)) == (vertex1 = this->find(vertex1))) {
 		return false;
 	}
@@ -173,7 +173,7 @@ template <>
 #else
 	constexpr
 #endif
-bool Dsu::unite <false> (size_type make_root, size_type make_child) noexcept {
+bool Dsu::unite <false> (size_type make_root, size_type make_child) {
 	if ((make_root = this->find(make_root)) == (make_child = this->find(make_child))) {
 		return false;
 	}
