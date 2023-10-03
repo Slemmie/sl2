@@ -26,7 +26,7 @@ public:
 		return !(*this == rhs);
 	}
 
-	constexpr std::strong_ordering operator <=> (const Mint <MOD, IS_PRIME>& rhs) {
+	constexpr std::strong_ordering operator <=> (const Mint <MOD, IS_PRIME>& rhs) noexcept {
 		return (int) *this < (int) rhs ? std::strong_ordering::less :
 		(int) *this > (int) rhs ? std::strong_ordering::greater : std::strong_ordering::equivalent;
 	}
