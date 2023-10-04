@@ -36,13 +36,13 @@ void copy_file(const Arg_info& arg_info) noexcept;
 
 // UTILITY
 
-// get absolute path of sl2 install directory
+// get absolute path of sl2 export directory
 // a.k.a. where the template.cpp files are ...
 // should not include the 'sl2' part
-#ifndef INSTALL_DIR
-#error "missing install directory macro"
+#ifndef EXPORT_DIR
+#error "missing EXPORT_DIR directory macro"
 #endif
-std::string abs_install_dir() noexcept;
+std::string abs_export_dir() noexcept;
 
 // convert Arg_info::cxx_version to string form
 std::string cxx_version_string(const Arg_info& arg_info) noexcept;
@@ -195,7 +195,7 @@ void copy_file(const Arg_info& arg_info) noexcept {
 	arg_info.cxx_version == Arg_info::CXX_VERSION::V_DEFUALT ?
 	"c++20" : "c++17";
 
-	const std::string template_filepath = abs_install_dir() + "/sl2/template/" + cxx_version_path + "/template.cpp";
+	const std::string template_filepath = abs_export_dir() + "/sl2/template/" + cxx_version_path + "/template.cpp";
 
 	try {
 		std::filesystem::copy(template_filepath, arg_info.output_file);
@@ -207,10 +207,10 @@ void copy_file(const Arg_info& arg_info) noexcept {
 
 // UTILITY
 
-std::string abs_install_dir() noexcept {
+std::string abs_export_dir() noexcept {
 #define STRING_QUOTE(x) (#x)
 #define STRING_VERSION(x) STRING_QUOTE(x)
-	return STRING_VERSION(INSTALL_DIR);
+	return STRING_VERSION(EXPORT_DIR);
 #undef STRING_QUOTE
 #undef STRING_VERSION
 }

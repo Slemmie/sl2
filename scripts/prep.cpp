@@ -65,13 +65,13 @@ void write_to_output_file(const Arg_info& arg_info, const Source_info& source_in
 // strips each line of trailing newline characters
 std::vector <std::string> read_file(const std::string& file_path);
 
-// get absolute path of sl2 install directory
+// get absolute path of sl2 export directory
 // a.k.a. where all the headers are ...
 // should not include the 'sl2' part
-#ifndef INSTALL_DIR
-#error "missing install directory macro"
+#ifndef EXPORT_DIR
+#error "missing EXPORT_DIR directory macro"
 #endif
-std::string abs_install_dir() noexcept;
+std::string abs_export_dir() noexcept;
 
 // std::string::find_first_of() but match entire string
 size_t find_first_of(const std::string& str, const std::string& pattern) noexcept;
@@ -340,8 +340,8 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 						}
 					}
 				} else {
-					if (!std::filesystem::exists(abs_install_dir() + "/sl2/" + header_path)) {
-						std::cerr << "[fatal]: header file '" << abs_install_dir() << "/sl2/" << header_path << "' was not found" << std::endl;
+					if (!std::filesystem::exists(abs_export_dir() + "/sl2/" + header_path)) {
+						std::cerr << "[fatal]: header file '" << abs_export_dir() << "/sl2/" << header_path << "' was not found" << std::endl;
 						exit(EXIT_FAILURE);
 					}
 
@@ -355,13 +355,13 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 				header_path = "sl2/" + header_path;
 
 				// make sure file exists
-				if (!std::filesystem::exists(abs_install_dir() + "/" + header_path)) {
-					std::cerr << "[fatal]: header file '" << abs_install_dir() << "/" << header_path << "' was not found" << std::endl;
+				if (!std::filesystem::exists(abs_export_dir() + "/" + header_path)) {
+					std::cerr << "[fatal]: header file '" << abs_export_dir() << "/" << header_path << "' was not found" << std::endl;
 					exit(EXIT_FAILURE);
 				}
 
 				// add entry
-				header_info.emplace_back(i, abs_install_dir() + "/" + header_path);
+				header_info.emplace_back(i, abs_export_dir() + "/" + header_path);
 			}
 		}
 
@@ -424,7 +424,7 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 				result.emplace_back(comments_before_pound);
 				result.emplace_back("");
 				try {
-					std::string rel_path = header_info[hi_ptr].file_path.substr(abs_install_dir().size() + std::string("/sl2/c++xx/").size());
+					std::string rel_path = header_info[hi_ptr].file_path.substr(abs_export_dir().size() + std::string("/sl2/c++xx/").size());
 					if (!already_unfolded_sl2_headers.count(rel_path)) {
 						already_unfolded_sl2_headers.insert(rel_path);
 						const std::vector <std::string> source = self(self, read_file(header_info[hi_ptr].file_path));
@@ -522,10 +522,10 @@ std::vector <std::string> read_file(const std::string& file_path) {
 	return result;
 }
 
-std::string abs_install_dir() noexcept {
+std::string abs_export_dir() noexcept {
 #define STRING_QUOTE(x) (#x)
 #define STRING_VERSION(x) STRING_QUOTE(x)
-	return STRING_VERSION(INSTALL_DIR);
+	return STRING_VERSION(EXPORT_DIR);
 #undef STRING_QUOTE
 #undef STRING_VERSION
 }
