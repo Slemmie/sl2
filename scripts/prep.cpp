@@ -109,7 +109,7 @@ int main(int argc, char** argv) {
 Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	// require at least an input file
 	if (argc < 2) {
-		std::cerr << "[fatal]: missing input file (get help with '$ pre --help')" << std::endl;
+		std::cerr << "[fatal]: missing input file (get help with '$ prep --help')" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -124,7 +124,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 
 		if (args[i - 1] == "-o") {
 			if (has_o_flag) {
-				std::cerr << "[fatal]: multiple occurrences of '-o' flag (get help with '$ pre --help')" << std::endl;
+				std::cerr << "[fatal]: multiple occurrences of '-o' flag (get help with '$ prep --help')" << std::endl;
 				exit(EXIT_FAILURE);
 			}
 
@@ -185,7 +185,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		// expect output file
 		if (args[i] == "-o") {
 			if (i + 1 == args.size()) {
-				std::cerr << "[fatal]: expected output file after '-o' flag (get help with '$ pre --help')" << std::endl;
+				std::cerr << "[fatal]: expected output file after '-o' flag (get help with '$ prep --help')" << std::endl;
 				exit(EXIT_FAILURE);
 			}
 
@@ -198,7 +198,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 			// do not allow multiple input files
 			// if '-o' flag is used, possible output file interpretation is not allowed
 			if (has_o_flag || !result.output_file.empty()) {
-				std::cerr << "[fatal]: multiple input files specified (get help with '$ pre --help')" << std::endl;
+				std::cerr << "[fatal]: multiple input files specified (get help with '$ prep --help')" << std::endl;
 				exit(EXIT_FAILURE);
 			}
 
@@ -213,7 +213,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 
 	// check for collected information
 	if (result.input_file.empty() && !result.help_flag) {
-		std::cerr << "[fatal]: missing input file (get help with '$ pre --help')" << std::endl;
+		std::cerr << "[fatal]: missing input file (get help with '$ prep --help')" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	if (result.output_file.empty()) {
@@ -226,13 +226,13 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 }
 
 void print_help() noexcept {
-	std::cout << " -- pre (sl2) help --" << std::endl;
+	std::cout << " -- prep (sl2) help --" << std::endl;
 	std::cout << std::endl;
 	std::cout << "  the script recursively unfolds sl2 headers in a C++ source file such that it may be submitted to an online judge" << std::endl;
 	std::cout << "  this ensures that the judge can compile the source file without 'unrecognized file' errors from include statements" << std::endl;
 	std::cout << std::endl;
 	std::cout << "  usage:" << std::endl;
-	std::cout << "  $ pre {flags}" << std::endl;
+	std::cout << "  $ prep {flags}" << std::endl;
 	std::cout << std::endl;
 	std::cout << "  '-h'/'-help'/'--help'                                           " <<
 	"-  show this message" << std::endl;

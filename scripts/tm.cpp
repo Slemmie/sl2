@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 Arg_info parse_clargs(int argc, const char** argv) noexcept {
 	// require at least the output file
 	if (argc < 2) {
-		std::cerr << "[fatal]: missing output file (get help with '$ tem --help')" << std::endl;
+		std::cerr << "[fatal]: missing output file (get help with '$ tm --help')" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -81,7 +81,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 
 		if (args[i - 1] == "-o") {
 			if (has_o_flag) {
-				std::cerr << "[fatal]: multiple occurrences of '-o' flag (get help with '$ tem --help')" << std::endl;
+				std::cerr << "[fatal]: multiple occurrences of '-o' flag (get help with '$ tm --help')" << std::endl;
 				exit(EXIT_FAILURE);
 			}
 
@@ -137,7 +137,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		// expect output file
 		if (args[i] == "-o") {
 			if (i + 1 == args.size()) {
-				std::cerr << "[fatal]: expected output file after '-o' flag (get help with '$ tem --help')" << std::endl;
+				std::cerr << "[fatal]: expected output file after '-o' flag (get help with '$ tm --help')" << std::endl;
 				exit(EXIT_FAILURE);
 			}
 
@@ -149,7 +149,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 		// do not allow multiple output files
 		// if '-o' flag is used, this counts as multiple output file error
 		if (has_o_flag || !result.output_file.empty()) {
-			std::cerr << "[fatal]: multiple output files specified (get help with '$ tem --help')" << std::endl;
+			std::cerr << "[fatal]: multiple output files specified (get help with '$ tm --help')" << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
@@ -158,7 +158,7 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 
 	// check for collected information
 	if (result.output_file.empty() && !result.help_flag) {
-		std::cerr << "[fatal]: missing output file (get help with '$ tem --help')" << std::endl;
+		std::cerr << "[fatal]: missing output file (get help with '$ tm --help')" << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
@@ -166,12 +166,12 @@ Arg_info parse_clargs(int argc, const char** argv) noexcept {
 }
 
 void print_help() noexcept {
-	std::cout << " -- tem (sl2) help --" << std::endl;
+	std::cout << " -- tm (sl2) help --" << std::endl;
 	std::cout << std::endl;
 	std::cout << "  the script copies the sl2 standard template.cpp file to a desired destination" << std::endl;
 	std::cout << std::endl;
 	std::cout << "  usage:" << std::endl;
-	std::cout << "  $ tem {flags}" << std::endl;
+	std::cout << "  $ tm {flags}" << std::endl;
 	std::cout << std::endl;
 	std::cout << "  '-h'/'-help'/'--help'                                           " <<
 	"-  show this message" << std::endl;
