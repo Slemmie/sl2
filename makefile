@@ -1,26 +1,28 @@
 # running '$ make' will compile scripts and prepare everything to be exported/installed
 all: scripts
 
+# directory where scripts will be placed
+# may be modified
 INSTALL_DIR = /usr/local/bin/
+
+# directory where headers will be placed
+# may be modified
+EXPORT_DIR = /usr/local/include/
 
 # default install option will place scripts in /usr/local/bin/
 # and export headers according to the rule below
 .PHONY: install
 install: export
-	cp ./bin/* $(INSTALL_DIR)
+	if [ -d ./bin/ ]; then cp ./bin/* $(INSTALL_DIR); fi
 
 # will uninstall (remove) all traces of sl2 as installed by the 'install' rule above
-# will fail if e.g. scripts have been renamed manually,
+# will likely not remove everything correctly if e.g. scripts have been renamed manually,
 # or in case of mismatch between INSTALL_DIR or EXPORT_DIR in case these have been manually altered
 # (make sure values of INSTALL_DIR and EXPORT_DIR match for install and uninstall)
 .PHONY: uninstall
 uninstall:
-	rm $(INSTALL_DIR)prep $(INSTALL_DIR)tm
+	rm -f $(INSTALL_DIR)prep $(INSTALL_DIR)tm
 	rm -rf $(EXPORT_DIR)sl2
-
-# directory where headers will be placed
-# may be modified
-EXPORT_DIR = /usr/local/include/
 
 # create directory /usr/local/include/sl2/
 # and copy necessary files (headers)
