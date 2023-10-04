@@ -1,7 +1,48 @@
 # sl2
 competetive programming library 2
 
+# Installation
+Quick installation of both headers and scripts requires building the scripts first:
+
+```sh
+$ make
+```
+
+Next, to install scripts in `/usr/local/bin/` and to export headers to `/usr/local/include/sl2/`:
+
+```sh
+$ sudo make install
+```
+
+#### Advanced installation
+The scripts, once built, will be placed in `./bin/`. The headers are found under `./src/`. Manually placing these wherever makes most sense is entirely possible, consult `makefile` for details on how normal installation works.
+
+# Uninstallation
+To remove all traces of sl2 as installed by `sudo make install`:
+
+```sh
+$ sudo make uninstall
+```
+
+# Usage
+Consult `tm --help` and `prep --help` for details about the scripts. `tm` allows quickly summoning the standard `template.cpp` file. `prep` prepares a source file for online submission by recursively unfolding sl2 headers included.
+
+To use a given header in a source file, you can e.g.:
+
+```c++
+#include <sl2/mint> // mint as an example, see content below for an exhaustive list of headers
+
+int main() {
+  mi x = 42;
+  // etc.
+}
+```
+
+When compiling locally, the correct version (C++ 20 vs. C++ 17) should be chosen by the compiler correctly automatically. See `prep --help` for details on preparing using the desired C++ version.
+
 # Content
+All content has C++ 20 and C++ 17 versions available.
+
 - [C++17 template.cpp](https://github.com/Slemmie/sl2/blob/main/template/c%2B%2B17/template.cpp)
 - [C++20 template.cpp](https://github.com/Slemmie/sl2/blob/main/template/c%2B%2B20/template.cpp)
 
@@ -15,13 +56,13 @@ competetive programming library 2
 | multiplicative inverse function | [inverse.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/inverse.h) | [inverse.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/inverse.h) |
 | euler's totient (phi) function | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/phi.h) | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/phi.h) |
 | disjoint union set class | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) |
+| segment tree class | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/segtree.h) | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/segtree.h) |
 
 # Todo
 - debugger
 - fenwick tree
 - 2D fenwick tree
 - hash map header that beats std::unordered_map
-- segment tree
 - dynamic segment tree
 - lazy segment tree
 - dynamic lazy segment tree
