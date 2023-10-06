@@ -315,9 +315,25 @@ void parse_source_code(const Arg_info& arg_info, Source_info& source_info) noexc
 				}
 			}
 
+			size_t first_quote = line.find_first_of("\"");
+
+			// if we are not at root, and an include statement used quotes, transform to use <sl2/...>
+			if (!is_root && first_quote != std::string::npos &&
+			find_first_of(line, "#include") != std::string::npos &&
+			find_first_of(line, "#include") < first_quote &&
+			first_quote + 1 != line.size() &&
+			find_first_of(line.substr(first_quote + 1), "\"") != std::string::npos) {
+				std::string inside_quotes = line.substr(first_quote + 1, find_first_of(line.substr(first_quote + 1), "\""));
+				if (arg_info.cxx_version == Arg_info::CXX_VERSION::V_DEFUALT || arg_info.cxx_version == Arg_info::CXX_VERSION::V_20) {
+					line = "#include <sl2/c++20/" + inside_quotes + ">";
+				} else {
+					line = "#include <sl2/c++17/" + inside_quotes + ">";
+				}
+			}
+
 			size_t begin_angular_bracket = std::string::npos;
 			size_t end_angular_bracket = std::string::npos;
-			size_t first_quote = line.find_first_of("\"");
+			first_quote = line.find_first_of("\"");
 
 			// in case this line is an include statement and it includes something with prefix "<sl2/"
 			if (find_first_of(line, "#include") != std::string::npos &&
