@@ -25,7 +25,7 @@ int main() {
 		std::cin >> t;
 		prep(t);
 		for (int i = 1; i <= t; i++) {
-			test_case(t);
+			test_case(i);
 		}
 	} else {
 		prep(1);
