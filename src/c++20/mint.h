@@ -63,10 +63,15 @@ public:
 		if (exponent < static_cast <A> (0)) {
 			return pow(base, exponent % m_phi + m_phi);
 		}
-		if (exponent >= m_phi) {
-			exponent %= m_phi;
+		if constexpr (IS_PRIME) {
+			if (exponent >= m_phi) {
+				exponent %= m_phi;
+			}
 		}
-		Mint <MOD, IS_PRIME> result(1);
+		if (exponent == static_cast <A> (0)) {
+			return Mint <MOD, IS_PRIME> (1);
+		}
+		Mint <MOD, IS_PRIME> result(base != 0);
 		while (exponent) {
 			if (exponent & static_cast <A> (1)) {
 				result *= base;
