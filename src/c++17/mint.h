@@ -18,6 +18,10 @@ public:
 		return this->m_value;
 	}
 
+	static constexpr int mod() noexcept {
+		return MOD;
+	}
+
 	constexpr bool operator == (const Mint <MOD, IS_PRIME>& rhs) const noexcept {
 		return (int) *this == (int) rhs;
 	}
