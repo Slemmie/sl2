@@ -59,6 +59,7 @@ All content has C++ 20 and C++ 17 versions available.
 | segment tree class | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/segtree.h) | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/segtree.h) | [segtree](https://github.com/Slemmie/sl2/blob/main/src/segtree) |
 | ordered set (extended STL) | [ordered\_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_set.h) | [ordered\_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_set.h) | [ordered\_set](https://github.com/Slemmie/sl2/blob/main/src/ordered_set) |
 | ordered map (extended STL) | [ordered\_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_map.h) | [ordered\_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_map.h) | [ordered\_map](https://github.com/Slemmie/sl2/blob/main/src/ordered_map) |
+| ordered set/map (extended STL) | - | - | [ordered](https://github.com/Slemmie/sl2/blob/main/src/ordered) |
 
 # Todo
 - debugger
