@@ -49,33 +49,33 @@ All content has C++ 20 and C++ 17 versions available.
 - [script for recursively unfolding a C++ file using sl2 headers for submission](https://github.com/Slemmie/sl2/blob/main/scripts/pre.cpp)
 - [script for copying standard sl2 template.cpp file to desired destination](https://github.com/Slemmie/sl2/blob/main/scripts/tem.cpp)
 
-| desciption | C++17 header | C++20 header |
-| ---------- | ------------ | ------------ |
-| mod int class | [mint.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint.h) | [mint.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint.h) |
-| mod int class typedeffing ```mi``` to use 998244353 | [mint9.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint9.h) | [mint9.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint9.h) |
-| multiplicative inverse function | [inverse.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/inverse.h) | [inverse.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/inverse.h) |
-| euler's totient (phi) function | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/phi.h) | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/phi.h) |
-| disjoint union set class | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) |
-| segment tree class | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/segtree.h) | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/segtree.h) |
-| ordered set (extended STL) | [ordered_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_set.h) | [ordered_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_set.h) |
-| ordered map (extended STL) | [ordered_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_map.h) | [ordered_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_map.h) |
+| desciption | C++17 header | C++20 header | wildcard header |
+| ---------- | ------------ | ------------ | --------------- |
+| mod int class | [mint.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint.h) | [mint.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint.h) | [mint](https://github.com/Slemmie/sl2/blob/main/src/mint) |
+| mod int class typedeffing `mi` to use 998244353 | [mint9.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/mint9.h) | [mint9.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/mint9.h) | [mint9](https://github.com/Slemmie/sl2/blob/main/src/mint9) |
+| multiplicative inverse function | [inverse.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/inverse.h) | [inverse.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/inverse.h) | [inverse](https://github.com/Slemmie/sl2/blob/main/src/inverse) |
+| euler's totient (phi) function | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/phi.h) | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/phi.h) | [inverse](https://github.com/Slemmie/sl2/blob/main/src/inverse) |
+| disjoint union set class | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) | [dsu](https://github.com/Slemmie/sl2/blob/main/src/dsu) |
+| segment tree class | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/segtree.h) | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/segtree.h) | [segtree](https://github.com/Slemmie/sl2/blob/main/src/segtree) |
+| ordered set (extended STL) | [ordered\_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_set.h) | [ordered\_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_set.h) | [ordered\_set](https://github.com/Slemmie/sl2/blob/main/src/ordered_set) |
+| ordered map (extended STL) | [ordered\_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_map.h) | [ordered\_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_map.h) | [ordered\_map](https://github.com/Slemmie/sl2/blob/main/src/ordered_map) |
 
 # Todo
 - debugger
 - fenwick tree
 - 2D fenwick tree
-- hash map header that beats std::unordered_map
+- hash map header that beats `std::unordered_map`
 - dynamic segment tree
 - lazy segment tree
 - dynamic lazy segment tree
 - persistent segment tree
 - persistent lazy segment tree
-- 2D segment tree (consider making ```Segtree <Segtree <Node>>``` possible instead)
-- 2D dynamic segment tree (consider making ```Dynamic_segtree <Dynamic_segtree <Node>>``` possible instead)
-- 2D lazy segment tree (consider making ```Lazy_segtree <Lazy_segtree <Node>>``` possible instead)
-- 2D dynamic lazy segment tree (consider making ```Dynamic_lazy_segtree <Dynamic_lazy_segtree <Node>>``` possible instead)
-- 2D persistent segment tree (consider making ```Persistent_segtree <Persistent_segtree <Node>>``` possible instead)
-- 2D persistent lazy segment tree (consider making ```Persistent_lazy_segtree <Persistent_lazy_segtree <Node>>``` possible instead)
+- 2D segment tree (consider making `Segtree <Segtree <Node>>` possible instead)
+- 2D dynamic segment tree (consider making `Dynamic_segtree <Dynamic_segtree <Node>>` possible instead)
+- 2D lazy segment tree (consider making `Lazy_segtree <Lazy_segtree <Node>>` possible instead)
+- 2D dynamic lazy segment tree (consider making `Dynamic_lazy_segtree <Dynamic_lazy_segtree <Node>>` possible instead)
+- 2D persistent segment tree (consider making `Persistent_segtree <Persistent_segtree <Node>>` possible instead)
+- 2D persistent lazy segment tree (consider making `Persistent_lazy_segtree <Persistent_lazy_segtree <Node>>` possible instead)
 - li chao tree
 - convex hull trick
 - square matrix object
