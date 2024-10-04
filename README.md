@@ -57,6 +57,8 @@ All content has C++ 20 and C++ 17 versions available.
 | euler's totient (phi) function | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/phi.h) | [phi.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/phi.h) |
 | disjoint union set class | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/dsu.h) | [dsu.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/dsu.h) |
 | segment tree class | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/segtree.h) | [segtree.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/segtree.h) |
+| ordered set (extended STL) | [ordered_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_set.h) | [ordered_set.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_set.h) |
+| ordered map (extended STL) | [ordered_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B17/ordered_map.h) | [ordered_map.h](https://github.com/Slemmie/sl2/blob/main/src/c%2B%2B20/ordered_map.h) |
 
 # Todo
 - debugger

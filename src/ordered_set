@@ -1,0 +1,9 @@
+#pragma once
+
+#if (__cplusplus == 202002L)
+#include "c++20/ordered_set.h"
+#elif (__cplusplus == 201703L)
+#include "c++17/ordered_set.h"
+#else
+#include "c++17/ordered_set.h"
+#endif
